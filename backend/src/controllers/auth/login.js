@@ -1,5 +1,6 @@
-import { prisma } from "../../config/prisma-client.js";
 import jwt from "jsonwebtoken";
+import { prisma } from "../../config/prisma-client.js";
+import { comparePassword } from "../../config/bcrypt.js";
 
 export const login = async (req, res, next) => {
   // Prevent error when destructuring req.body
@@ -22,7 +23,9 @@ export const login = async (req, res, next) => {
       return res.status(401).json({ message: "User not found" });
     }
 
-    if (user.password !== password) {
+    const passwordMatch = await comparePassword(password, user.password);
+
+    if (!passwordMatch) {
       return res.status(401).json({ message: "Wrong password" });
     }
 

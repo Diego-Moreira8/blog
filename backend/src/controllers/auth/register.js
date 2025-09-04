@@ -1,4 +1,5 @@
 import { prisma } from "../../config/prisma-client.js";
+import { hashPassword } from "../../config/bcrypt.js";
 
 export const register = async (req, res, next) => {
   // Prevent error when destructuring req.body
@@ -30,15 +31,17 @@ export const register = async (req, res, next) => {
         .json({ message: "Username already exists in the database" });
     }
 
+    const passwordHash = await hashPassword(password);
+
     const newUser = await prisma.user.create({
       data: {
         username,
-        password,
+        password: passwordHash,
         Profile: { create: { name } },
       },
     });
 
-    res.json({ message: "Success", newUser });
+    res.json({ message: "Success" });
   } catch (error) {
     next(error);
   }

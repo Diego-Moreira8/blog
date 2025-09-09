@@ -4,6 +4,7 @@ import express from "express";
 import { config as dotenv } from "dotenv";
 import logger from "morgan";
 import helmet from "helmet";
+import cors from "cors";
 // Modules
 import { authenticate, initPassport } from "./config/passport.js";
 // Routes
@@ -18,6 +19,7 @@ initPassport();
 const app = express();
 
 if (NODE_ENV !== "production") app.use(logger("dev"));
+app.use(cors());
 app.use(helmet());
 app.use(express.urlencoded());
 

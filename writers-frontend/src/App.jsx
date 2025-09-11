@@ -1,13 +1,21 @@
-import { Link } from "react-router";
+import { Outlet } from "react-router";
+import { AuthContextProvider } from "./components/AuthContext";
+import { Nav } from "./components/Nav";
 import "./App.css";
 
-function App() {
+export function App() {
   return (
-    <>
-      <h1>Home</h1>
-      <Link to="login">Fazer login</Link>
-    </>
+    <AuthContextProvider>
+      <div>
+        <header>
+          <span>Blog</span>
+          <Nav />
+        </header>
+
+        <main>
+          <Outlet />
+        </main>
+      </div>
+    </AuthContextProvider>
   );
 }
-
-export default App;

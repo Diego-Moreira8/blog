@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "./AuthContext";
 
-export function LoginForm({ onSuccessAuth }) {
+export function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
+
+  const { storeAuthToken } = useContext(AuthContext);
 
   async function handleSubmit(e) {
     setIsFetching(true);
@@ -32,7 +35,7 @@ export function LoginForm({ onSuccessAuth }) {
 
       const { token } = await response.json();
 
-      onSuccessAuth(token);
+      storeAuthToken(token);
     } catch (error) {
       setStatus("Houve um problema durante o login, tente novamente.");
       console.error(error);

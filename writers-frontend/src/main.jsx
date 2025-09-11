@@ -1,20 +1,21 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter, redirect } from "react-router";
 import { RouterProvider } from "react-router/dom";
 
 import "./index.css";
 
-import App from "./App.jsx";
+import { App } from "./App.jsx";
 import { Login } from "./pages/Login.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
+    Component: App,
     children: [
       {
         index: true,
-        Component: App,
+        loader: () => redirect("/login"),
       },
       {
         path: "login",
@@ -25,5 +26,7 @@ const router = createBrowserRouter([
 ]);
 
 createRoot(document.getElementById("root")).render(
-  <RouterProvider router={router} />
+  <StrictMode>
+    <RouterProvider router={router} />
+  </StrictMode>
 );

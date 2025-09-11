@@ -1,15 +1,14 @@
+import { useContext } from "react";
 import { LoginForm } from "../components/LoginForm";
-import { useAuth } from "../hooks/useAuth";
+import { AuthContext } from "../components/AuthContext";
 
 export function Login() {
-  const { isAuthenticated, login, logout } = useAuth();
+  const { isAuthenticated } = useContext(AuthContext);
 
-  return isAuthenticated ? (
+  return (
     <div>
-      <p>Já autenticado!</p>
-      <button onClick={logout}>Sair</button>
+      <h1>Login</h1>
+      {isAuthenticated ? <p>Já autenticado!</p> : <LoginForm />}
     </div>
-  ) : (
-    <LoginForm onSuccessAuth={login} />
   );
 }

@@ -1,23 +1,22 @@
 import { createContext, useEffect, useState } from "react";
+import { authToken } from "../utils/authToken";
 
 export const AuthContext = createContext(null);
 
 export function AuthContextProvider({ children }) {
-  const AUTH_TOKEN_KEY = "authToken";
-
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    setIsAuthenticated(!!localStorage.getItem(AUTH_TOKEN_KEY));
+    setIsAuthenticated(authToken.get());
   }, []);
 
   function storeAuthToken(token) {
-    localStorage.setItem(AUTH_TOKEN_KEY, token);
+    authToken.set(token);
     setIsAuthenticated(true);
   }
 
   function removeAuthToken() {
-    localStorage.removeItem(AUTH_TOKEN_KEY);
+    authToken.remove();
     setIsAuthenticated(false);
   }
 

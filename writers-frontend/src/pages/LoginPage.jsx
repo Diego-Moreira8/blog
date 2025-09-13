@@ -1,13 +1,16 @@
 import { useContext, useState } from "react";
-import { AuthContext } from "./AuthContext";
+import { AuthContext } from "../components/AuthContext";
+import { useNavigate } from "react-router";
 
-export function LoginForm() {
+export function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
 
   const { storeAuthToken } = useContext(AuthContext);
+
+  const navigate = useNavigate();
 
   async function handleSubmit(e) {
     setIsFetching(true);
@@ -36,6 +39,7 @@ export function LoginForm() {
       const { token } = await response.json();
 
       storeAuthToken(token);
+      navigate("/");
     } catch (error) {
       setStatus("Houve um problema durante o login, tente novamente.");
       console.error(error);

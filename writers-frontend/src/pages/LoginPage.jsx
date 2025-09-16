@@ -2,41 +2,37 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../components/AuthContext";
 import { Link, useNavigate } from "react-router";
 import { fetchBlog } from "../utils/fetchBlog";
+import { FormProvider, useForm } from "react-hook-form";
+import { Input } from "../components/Input";
 
 export function LoginPage() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [status, setStatus] = useState(null);
+  const [submitStatus, setSubmitStatus] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
   const { storeAuthToken } = useContext(AuthContext);
   const navigate = useNavigate();
+  const methods = useForm();
 
-  async function handleSubmit(e) {
+  async function onSubmit(data) {
     setIsFetching(true);
-    e.preventDefault();
 
     try {
-      const response = await fetchBlog("POST", "/auth/login", {
-        username,
-        password,
-      });
+      const response = await fetchBlog("POST", "/auth/login", data);
 
       if (!response.ok) {
         if (response.status === 400) {
-          setStatus("Nome de usuário ou senha incorretos.");
+          setSubmitStatus("Nome de usuário ou senha incorretos.");
         } else {
-          setStatus("Houve um problema durante o login, tente novamente.");
+          setSubmitStatus(
+            "Houve um problema durante o login, tente novamente."
+          );
         }
-
         return;
       }
-
       const { token } = await response.json();
-
       storeAuthToken(token);
       navigate("/");
     } catch (error) {
-      setStatus("Houve um problema durante o login, tente novamente.");
+      setSubmitStatus("Houve um problema durante o login, tente novamente.");
       console.error(error);
     } finally {
       setIsFetching(false);
@@ -49,37 +45,36 @@ export function LoginPage() {
         <b>Já tenho uma conta.</b>
       </p>
 
-      <form onSubmit={handleSubmit}>
-        <p>{status}</p>
+      <FormProvider {...methods}>
+        <form onSubmit={methods.handleSubmit(onSubmit)}>
+          <p>{submitStatus}</p>
 
-        <div>
-          <label htmlFor="username">Nome de usuário:</label>
-          <input
-            type="text"
-            name="username"
+          <Input
+            label="Nome de usuário:"
             id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            name="username"
+            validation={{
+              required: { value: true, message: "Campo obrigatório" },
+            }}
           />
-        </div>
 
-        <div>
-          <label htmlFor="password">Senha:</label>
-          <input
+          <Input
+            label="Senha:"
             type="password"
-            name="password"
             id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            name="password"
+            validation={{
+              required: { value: true, message: "Campo obrigatório" },
+            }}
           />
-        </div>
 
-        <div>
-          <button type="submit" disabled={isFetching}>
-            Entrar
-          </button>
-        </div>
-      </form>
+          <div>
+            <button type="submit" disabled={isFetching}>
+              {isFetching ? "Entrando..." : "Entrar"}
+            </button>
+          </div>
+        </form>
+      </FormProvider>
 
       <hr />
 

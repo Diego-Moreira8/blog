@@ -2,22 +2,27 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../components/AuthContext";
 import { Link, useNavigate } from "react-router";
 import { fetchBlog } from "../utils/fetchBlog";
+import { FormProvider, useForm } from "react-hook-form";
+import { Input } from "../components/Input";
+import {
+  full_name_validation,
+  password_confirmation_validation,
+  password_validation,
+  username_validation,
+} from "../utils/inputValidations";
 
 export function SignupPage() {
-  const [fullName, setFullName] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordConfirmation, setPasswordConfirmation] = useState("");
-  const [status, setStatus] = useState(null);
+  const [submitStatus, setSubmitStatus] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
   const { storeAuthToken } = useContext(AuthContext);
   const navigate = useNavigate();
+  const methods = useForm();
 
-  async function handleSubmit(e) {
+  async function onSubmit(data) {
     setIsFetching(true);
-    e.preventDefault();
 
     try {
+      const { fullName, username, password, passwordConfirmation } = data;
       const signUpResponse = await fetchBlog("POST", "/auth/register", {
         name: fullName,
         username: username,
@@ -26,12 +31,12 @@ export function SignupPage() {
       });
 
       if (!signUpResponse.ok) {
-        return setStatus(
+        return setSubmitStatus(
           "Houve um problema durante o registro, tente novamente."
         );
       }
 
-      setStatus("Conta criada com sucesso! Autenticando...");
+      setSubmitStatus("Conta criada com sucesso! Autenticando...");
 
       const loginResponse = await fetchBlog("POST", "/auth/login", {
         username,
@@ -39,7 +44,7 @@ export function SignupPage() {
       });
 
       if (!loginResponse.ok) {
-        setStatus(
+        setSubmitStatus(
           "Sua conta foi criada mas houve um problema durante o login."
         );
         return;
@@ -50,7 +55,7 @@ export function SignupPage() {
       storeAuthToken(token);
       navigate("/");
     } catch (error) {
-      setStatus("Houve um problema durante o registro, tente novamente.");
+      setSubmitStatus("Houve um problema durante o registro, tente novamente.");
       console.error(error);
     } finally {
       setIsFetching(false);
@@ -63,59 +68,22 @@ export function SignupPage() {
         <b>Criar uma conta.</b>
       </p>
 
-      <form onSubmit={handleSubmit}>
-        {status && <p>{status}</p>}
+      <FormProvider {...methods}>
+        <form onSubmit={methods.handleSubmit(onSubmit)}>
+          <p>{submitStatus}</p>
 
-        <div>
-          <label htmlFor="fullName">Seu nome:</label>
-          <input
-            type="text"
-            name="name"
-            id="fullName"
-            value={fullName}
-            onChange={(e) => setFullName(e.target.value)}
-          />
-        </div>
+          <Input {...full_name_validation} />
+          <Input {...username_validation} />
+          <Input {...password_validation} />
+          <Input {...password_confirmation_validation} />
 
-        <div>
-          <label htmlFor="username">Nome de usuário:</label>
-          <input
-            type="text"
-            name="username"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </div>
-
-        <div>
-          <label htmlFor="password">Senha:</label>
-          <input
-            type="password"
-            name="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-
-        <div>
-          <label htmlFor="passwordConfirmation">Repita a senha:</label>
-          <input
-            type="password"
-            name="password-confirmation"
-            id="passwordConfirmation"
-            value={passwordConfirmation}
-            onChange={(e) => setPasswordConfirmation(e.target.value)}
-          />
-        </div>
-
-        <div>
-          <button type="submit" disabled={isFetching}>
-            Criar conta
-          </button>
-        </div>
-      </form>
+          <div>
+            <button type="submit" disabled={isFetching}>
+              {isFetching ? "Criando conta..." : "Criar conta"}
+            </button>
+          </div>
+        </form>
+      </FormProvider>
 
       <hr />
 

@@ -1,29 +1,24 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../components/AuthContext";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { fetchBlog } from "../utils/fetchBlog";
 
 export function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
-
   const { storeAuthToken } = useContext(AuthContext);
-
   const navigate = useNavigate();
 
   async function handleSubmit(e) {
     setIsFetching(true);
     e.preventDefault();
-    const body = new URLSearchParams({ username, password });
 
     try {
-      const response = await fetch("http://localhost:3000/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body,
+      const response = await fetchBlog("POST", "/auth/login", {
+        username,
+        password,
       });
 
       if (!response.ok) {
@@ -55,7 +50,7 @@ export function LoginPage() {
       </p>
 
       <form onSubmit={handleSubmit}>
-        {status && <p>{status}</p>}
+        <p>{status}</p>
 
         <div>
           <label htmlFor="username">Nome de usuário:</label>
@@ -85,6 +80,15 @@ export function LoginPage() {
           </button>
         </div>
       </form>
+
+      <hr />
+
+      <p>
+        <b>Ainda não tenho uma conta.</b>
+        <br />
+        Crie uma conta e interaja com postagens, escolha um tema e muito mais!
+      </p>
+      <Link to="/criar-conta">Criar Conta</Link>
     </div>
   );
 }

@@ -12,7 +12,7 @@ export function Nav() {
           {isAuthenticated ? (
             <button onClick={removeAuthToken}>Sair</button>
           ) : (
-            <NavLink to="login">Entrar</NavLink>
+            <NavLink to="entrar">Entrar</NavLink>
           )}
         </li>
       </ul>

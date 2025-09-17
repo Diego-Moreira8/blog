@@ -3,6 +3,7 @@ import { userInfo } from "./utils/userInfo.js";
 import { App } from "./App.jsx";
 import { LoginPage } from "./pages/LoginPage.jsx";
 import { SignupPage } from "./pages/SignupPage.jsx";
+import { ErrorPage } from "./pages/ErrorPage.jsx";
 
 export const router = createBrowserRouter([
   {
@@ -33,6 +34,11 @@ export const router = createBrowserRouter([
       {
         path: "home",
         element: <h1>HOME</h1>,
+      },
+      {
+        // Page not found
+        path: "*",
+        Component: ErrorPage,
       },
     ],
   },

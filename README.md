@@ -19,7 +19,7 @@ Uma aplicação full-stack de um serviço de blog.
   | não vazio | x | x | |
   | sem espaços | x | x | |
   | apenas letras, números, -, \_ e . | x | x | |
-  | único no BD | x | | |
+  | único no BD | x | x | |
 
 - senha
   | REGRA | BACK | WRITER | BLOG |
@@ -28,4 +28,4 @@ Uma aplicação full-stack de um serviço de blog.
   | max 250 caracteres | x | x | |
   | não vazio | x | x | |
   | letras e números | x | x | |
-  | Não permitir senha igual ao username | x | | |
+  | Não permitir senha igual ao username | x | x | |

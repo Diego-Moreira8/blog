@@ -5,7 +5,7 @@ export const full_name_validation = {
   validation: {
     maxLength: {
       value: 250,
-      message: "O nome pode ter no máximo de 250 caracteres",
+      message: "O nome pode ter no máximo de 250 caracteres.",
     },
   },
 };
@@ -17,15 +17,15 @@ export const username_validation = {
   validation: {
     required: {
       value: true,
-      message: "Campo obrigatório",
+      message: "Campo obrigatório.",
     },
     minLength: {
       value: 3,
-      message: "O nome de usuário precisa ter pelo menos 3 caracteres",
+      message: "O nome de usuário precisa ter pelo menos 3 caracteres.",
     },
     maxLength: {
       value: 50,
-      message: "O nome de usuário pode ter no máximo 50 caracteres",
+      message: "O nome de usuário pode ter no máximo 50 caracteres.",
     },
     pattern: {
       value: /^[A-Za-z0-9._-]+$/,
@@ -43,19 +43,24 @@ export const password_validation = {
   validation: {
     required: {
       value: true,
-      message: "Campo obrigatório",
+      message: "Campo obrigatório.",
     },
     minLength: {
       value: 8,
-      message: "A senha precisa ter pelo menos 8 caracteres",
+      message: "A senha precisa ter pelo menos 8 caracteres.",
     },
     maxLength: {
       value: 250,
-      message: "A senha pode ter no máximo 250 caracteres",
+      message: "A senha pode ter no máximo 250 caracteres.",
     },
     pattern: {
       value: /^(?=.*[A-Za-z])(?=.*\d).+$/,
-      message: "A senha precisa incluir pelo menos uma letra e um número",
+      message: "A senha precisa incluir pelo menos uma letra e um número.",
+    },
+    validate: (password, { username }) => {
+      if (password.toLowerCase() === username.toLowerCase()) {
+        return "A senha não pode ser igual ao nome de usuário.";
+      }
     },
   },
 };
@@ -66,6 +71,14 @@ export const password_confirmation_validation = {
   id: "passwordConfirmation",
   name: "passwordConfirmation",
   validation: {
-    required: { value: true, message: "Campo obrigatório" },
+    required: {
+      value: true,
+      message: "Campo obrigatório.",
+    },
+    validate: (passwordConfirmation, { password }) => {
+      if (passwordConfirmation !== password) {
+        return "As senhas não são iguais. Tente novamente.";
+      }
+    },
   },
 };

@@ -31,6 +31,17 @@ export function SignupPage() {
       });
 
       if (!signUpResponse.ok) {
+        const signUpData = await signUpResponse.json();
+        const usernameTaken = signUpData.formErrors?.find((error) => {
+          return error.msg === "Username already exists in the database";
+        });
+
+        if (usernameTaken) {
+          return setSubmitStatus(
+            `O nome de usuário "${usernameTaken.value}" já existe, tente outro.`
+          );
+        }
+
         return setSubmitStatus(
           "Houve um problema durante o registro, tente novamente."
         );
@@ -44,10 +55,9 @@ export function SignupPage() {
       });
 
       if (!loginResponse.ok) {
-        setSubmitStatus(
+        return setSubmitStatus(
           "Sua conta foi criada mas houve um problema durante o login."
         );
-        return;
       }
 
       const { token } = await loginResponse.json();

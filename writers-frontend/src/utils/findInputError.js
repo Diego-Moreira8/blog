@@ -1,5 +1,4 @@
 export function findInputError(errors, name) {
-  console.log(errors);
   const filtered = Object.keys(errors)
     .filter((key) => {
       return key === name;

@@ -26,10 +26,6 @@ app.use(express.urlencoded());
 // Routes **********************************************************************
 app.use("/auth", authRouter);
 
-app.get("/", authenticate, (req, res) => {
-  res.json({ message: "Hello, World!" });
-});
-
 // Resource not found
 app.use((req, res, next) => {
   res.status(404).json({ message: "Resource not found" });

@@ -17,7 +17,10 @@ export const validateLoginForm = [
       const inputError = new Error("Username not found");
 
       try {
-        const userFound = await prisma.user.findUnique({ where: { username } });
+        const userFound = await prisma.user.findUnique({
+          where: { username },
+          include: { Profile: true },
+        });
 
         if (!userFound) {
           throw inputError;

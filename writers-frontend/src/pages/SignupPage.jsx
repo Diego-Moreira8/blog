@@ -14,7 +14,7 @@ import {
 export function SignupPage() {
   const [submitStatus, setSubmitStatus] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
-  const { storeAuthToken } = useContext(AuthContext);
+  const { handleLogin } = useContext(AuthContext);
   const navigate = useNavigate();
   const methods = useForm();
 
@@ -60,9 +60,9 @@ export function SignupPage() {
         );
       }
 
-      const { token } = await loginResponse.json();
+      const { user } = await loginResponse.json();
 
-      storeAuthToken(token);
+      handleLogin(user);
       navigate("/");
     } catch (error) {
       setSubmitStatus("Houve um problema durante o registro, tente novamente.");

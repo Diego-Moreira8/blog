@@ -3,14 +3,19 @@ import { NavLink } from "react-router";
 import { AuthContext } from "./AuthContext";
 
 export function Nav() {
-  const { isAuthenticated, removeAuthToken } = useContext(AuthContext);
+  const { userData, handleLogout } = useContext(AuthContext);
 
   return (
     <nav>
       <ul>
         <li>
-          {isAuthenticated ? (
-            <button onClick={removeAuthToken}>Sair</button>
+          {userData ? (
+            <>
+              <span>
+                <b>Olá, {userData.name || userData.username}</b>
+              </span>
+              <button onClick={handleLogout}>Sair</button>
+            </>
           ) : (
             <NavLink to="entrar">Entrar</NavLink>
           )}

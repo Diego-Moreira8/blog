@@ -8,7 +8,7 @@ import { Input } from "../components/Input";
 export function LoginPage() {
   const [submitStatus, setSubmitStatus] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
-  const { storeAuthToken } = useContext(AuthContext);
+  const { handleLogin } = useContext(AuthContext);
   const navigate = useNavigate();
   const methods = useForm();
 
@@ -28,8 +28,8 @@ export function LoginPage() {
         }
         return;
       }
-      const { token } = await response.json();
-      storeAuthToken(token);
+      const { user } = await response.json();
+      handleLogin(user);
       navigate("/");
     } catch (error) {
       setSubmitStatus("Houve um problema durante o login, tente novamente.");

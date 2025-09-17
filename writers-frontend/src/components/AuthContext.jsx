@@ -1,27 +1,27 @@
 import { createContext, useEffect, useState } from "react";
-import { authToken } from "../utils/authToken";
+import { userInfo } from "../utils/userInfo.js";
 
 export const AuthContext = createContext(null);
 
 export function AuthContextProvider({ children }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
-    setIsAuthenticated(authToken.get());
+    setUserData(JSON.parse(userInfo.get()));
   }, []);
 
-  function storeAuthToken(token) {
-    authToken.set(token);
-    setIsAuthenticated(true);
+  function handleLogin(data) {
+    userInfo.set(JSON.stringify(data));
+    setUserData(data);
   }
 
-  function removeAuthToken() {
-    authToken.remove();
-    setIsAuthenticated(false);
+  function handleLogout() {
+    userInfo.remove();
+    setUserData(null);
   }
 
   return (
-    <AuthContext value={{ isAuthenticated, storeAuthToken, removeAuthToken }}>
+    <AuthContext value={{ userData, handleLogin, handleLogout }}>
       {children}
     </AuthContext>
   );

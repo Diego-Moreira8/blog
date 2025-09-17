@@ -26,12 +26,16 @@
  */
 export function fetchBlog(method, resourceURI, body) {
   const { VITE_API_URL } = import.meta.env;
-
-  return fetch(VITE_API_URL + resourceURI, {
+  const options = {
     method,
-    body: new URLSearchParams(body),
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
-  });
+  };
+
+  if (method === "POST") {
+    options.body = new URLSearchParams(body);
+  }
+
+  return fetch(VITE_API_URL + resourceURI, options);
 }

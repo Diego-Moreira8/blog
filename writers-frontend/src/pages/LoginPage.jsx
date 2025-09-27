@@ -1,9 +1,10 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../components/AuthContext";
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { fetchBlog } from "../utils/fetchBlog";
 import { FormProvider, useForm } from "react-hook-form";
 import { Input } from "../components/Input";
+import { RouterLink } from "../components/RouterLink";
 
 export function LoginPage() {
   const [submitStatus, setSubmitStatus] = useState(null);
@@ -23,7 +24,7 @@ export function LoginPage() {
           setSubmitStatus("Nome de usuário ou senha incorretos.");
         } else {
           setSubmitStatus(
-            "Houve um problema durante o login, tente novamente."
+            "Houve um problema durante o login, tente novamente.",
           );
         }
         return;
@@ -83,7 +84,7 @@ export function LoginPage() {
         <br />
         Crie uma conta e interaja com postagens, escolha um tema e muito mais!
       </p>
-      <Link to="/criar-conta">Criar Conta</Link>
+      <RouterLink to="/criar-conta">Criar Conta</RouterLink>
     </div>
   );
 }

@@ -8,7 +8,7 @@ export function App() {
       <div className="font-serif">
         <Header />
 
-        <main>
+        <main className="container mx-auto p-4">
           <Outlet />
         </main>
       </div>

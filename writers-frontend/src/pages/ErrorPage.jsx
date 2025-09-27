@@ -1,10 +1,10 @@
-import { Link } from "react-router";
+import { RouterLink } from "../components/RouterLink";
 
 export function ErrorPage() {
   return (
-    <div>
-      <p>Ops... Não encontramos esta página!</p>
-      <Link to="/">Voltar para a página inicial</Link>
+    <div className="text-center">
+      <p className="mb-4 text-2xl">Ops... Não encontramos esta página!</p>
+      <RouterLink to="/">Voltar para a página inicial</RouterLink>
     </div>
   );
 }

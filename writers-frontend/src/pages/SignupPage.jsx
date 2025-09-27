@@ -1,9 +1,10 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../components/AuthContext";
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { fetchBlog } from "../utils/fetchBlog";
 import { FormProvider, useForm } from "react-hook-form";
 import { Input } from "../components/Input";
+import { RouterLink } from "../components/RouterLink";
 import {
   full_name_validation,
   password_confirmation_validation,
@@ -38,12 +39,12 @@ export function SignupPage() {
 
         if (usernameTaken) {
           return setSubmitStatus(
-            `O nome de usuário "${usernameTaken.value}" já existe, tente outro.`
+            `O nome de usuário "${usernameTaken.value}" já existe, tente outro.`,
           );
         }
 
         return setSubmitStatus(
-          "Houve um problema durante o registro, tente novamente."
+          "Houve um problema durante o registro, tente novamente.",
         );
       }
 
@@ -56,7 +57,7 @@ export function SignupPage() {
 
       if (!loginResponse.ok) {
         return setSubmitStatus(
-          "Sua conta foi criada mas houve um problema durante o login."
+          "Sua conta foi criada mas houve um problema durante o login.",
         );
       }
 
@@ -100,7 +101,7 @@ export function SignupPage() {
       <p>
         <b>Já tenho uma conta.</b>
       </p>
-      <Link to="/entrar">Entrar</Link>
+      <RouterLink to="/entrar">Entrar</RouterLink>
     </div>
   );
 }

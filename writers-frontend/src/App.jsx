@@ -1,16 +1,12 @@
 import { Outlet } from "react-router";
 import { AuthContextProvider } from "./components/AuthContext";
-import { Nav } from "./components/Nav";
-import "./App.css";
+import { Header } from "./components/Header";
 
 export function App() {
   return (
     <AuthContextProvider>
-      <div>
-        <header>
-          <span>Blog</span>
-          <Nav />
-        </header>
+      <div className="font-serif">
+        <Header />
 
         <main>
           <Outlet />

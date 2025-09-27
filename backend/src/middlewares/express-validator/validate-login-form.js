@@ -8,6 +8,7 @@ export const validateLoginForm = [
     .trim()
     .notEmpty()
     .withMessage("Cannot be empty")
+    .toLowerCase()
     .custom(async function checkExistence(username, { req }) {
       // Avoid unnecessary DB query
       if (!username) {

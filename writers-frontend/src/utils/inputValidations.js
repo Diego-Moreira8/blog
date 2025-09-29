@@ -2,6 +2,7 @@ export const full_name_validation = {
   label: "Seu nome:",
   id: "fullName",
   name: "fullName",
+  autoComplete: "name",
   validation: {
     maxLength: {
       value: 250,
@@ -14,6 +15,7 @@ export const username_validation = {
   label: "Nome de usuário:",
   id: "username",
   name: "username",
+  autoComplete: "username",
   validation: {
     required: {
       value: true,
@@ -40,6 +42,7 @@ export const password_validation = {
   type: "password",
   id: "password",
   name: "password",
+  autoComplete: "new-password",
   validation: {
     required: {
       value: true,
@@ -70,6 +73,7 @@ export const password_confirmation_validation = {
   type: "password",
   id: "passwordConfirmation",
   name: "passwordConfirmation",
+  autoComplete: "new-password",
   validation: {
     required: {
       value: true,

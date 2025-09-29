@@ -3,14 +3,19 @@ import { AuthContext } from "../components/AuthContext";
 import { useNavigate } from "react-router";
 import { fetchBlog } from "../utils/fetchBlog";
 import { FormProvider, useForm } from "react-hook-form";
-import { Input } from "../components/Input";
-import { RouterLink } from "../components/RouterLink";
 import {
   full_name_validation,
   password_confirmation_validation,
   password_validation,
   username_validation,
 } from "../utils/inputValidations";
+import { Input } from "../components/Input";
+import { RouterLink } from "../components/RouterLink";
+import { FormContainer } from "../components/FormContainer";
+import { H1 } from "../components/Headings";
+import { Button } from "../components/Button";
+import { Divider } from "../components/Divider";
+import { AlertMessage } from "../components/AlertMessage";
 
 export function SignupPage() {
   const [submitStatus, setSubmitStatus] = useState(null);
@@ -74,34 +79,30 @@ export function SignupPage() {
   }
 
   return (
-    <div>
-      <p>
-        <b>Criar uma conta.</b>
-      </p>
+    <FormContainer>
+      <H1>Criar uma Conta</H1>
 
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
-          <p>{submitStatus}</p>
+          {submitStatus && <AlertMessage>{submitStatus}</AlertMessage>}
 
           <Input {...full_name_validation} />
           <Input {...username_validation} />
           <Input {...password_validation} />
           <Input {...password_confirmation_validation} />
 
-          <div>
-            <button type="submit" disabled={isFetching}>
-              {isFetching ? "Criando conta..." : "Criar conta"}
-            </button>
-          </div>
+          <Button type="submit" disabled={isFetching} centered={true}>
+            {isFetching ? "Criando conta..." : "Criar conta"}
+          </Button>
         </form>
       </FormProvider>
 
-      <hr />
+      <Divider />
 
-      <p>
-        <b>Já tenho uma conta.</b>
+      <p className="text-center">
+        <b>Já tem uma conta? </b>
+        <RouterLink to="/entrar">Entre com a sua conta</RouterLink>
       </p>
-      <RouterLink to="/entrar">Entrar</RouterLink>
-    </div>
+    </FormContainer>
   );
 }

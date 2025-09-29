@@ -13,6 +13,7 @@ export const Input = ({
   placeholder,
   validation,
   multiline = false,
+  autoComplete,
 }) => {
   const {
     register,
@@ -28,7 +29,9 @@ export const Input = ({
 
   return (
     <div className="my-4 flex flex-col">
-      <label htmlFor={id}>{label}</label>
+      <label className="mb-1 text-sm font-semibold" htmlFor={id}>
+        {label}
+      </label>
 
       {multiline ? (
         <textarea
@@ -46,6 +49,7 @@ export const Input = ({
             type={passwordVisible ? "text" : type}
             placeholder={placeholder}
             {...register(name, validation)}
+            autoComplete={autoComplete}
           />
           {isPasswordField && (
             <button

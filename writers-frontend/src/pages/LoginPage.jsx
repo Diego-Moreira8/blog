@@ -5,6 +5,11 @@ import { fetchBlog } from "../utils/fetchBlog";
 import { FormProvider, useForm } from "react-hook-form";
 import { Input } from "../components/Input";
 import { RouterLink } from "../components/RouterLink";
+import { H1 } from "../components/Headings";
+import { FormContainer } from "../components/FormContainer";
+import { Button } from "../components/Button";
+import { Divider } from "../components/Divider";
+import { AlertMessage } from "../components/AlertMessage";
 
 export function LoginPage() {
   const [submitStatus, setSubmitStatus] = useState(null);
@@ -41,19 +46,18 @@ export function LoginPage() {
   }
 
   return (
-    <div>
-      <p>
-        <b>Já tenho uma conta.</b>
-      </p>
+    <FormContainer>
+      <H1>Entrar na Minha Conta</H1>
 
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
-          <p>{submitStatus}</p>
+          {submitStatus && <AlertMessage>{submitStatus}</AlertMessage>}
 
           <Input
             label="Nome de usuário:"
             id="username"
             name="username"
+            autoComplete="username"
             validation={{
               required: { value: true, message: "Campo obrigatório" },
             }}
@@ -64,27 +68,24 @@ export function LoginPage() {
             type="password"
             id="password"
             name="password"
+            autoComplete="current-password"
             validation={{
               required: { value: true, message: "Campo obrigatório" },
             }}
           />
 
-          <div>
-            <button type="submit" disabled={isFetching}>
-              {isFetching ? "Entrando..." : "Entrar"}
-            </button>
-          </div>
+          <Button type="submit" disabled={isFetching} centered={true}>
+            {isFetching ? "Entrando..." : "Entrar"}
+          </Button>
         </form>
       </FormProvider>
 
-      <hr />
+      <Divider />
 
-      <p>
-        <b>Ainda não tenho uma conta.</b>
-        <br />
-        Crie uma conta e interaja com postagens, escolha um tema e muito mais!
+      <p className="text-center">
+        <b>Ainda não tem uma conta? </b>
+        <RouterLink to="/criar-conta">Criar uma conta</RouterLink>
       </p>
-      <RouterLink to="/criar-conta">Criar Conta</RouterLink>
-    </div>
+    </FormContainer>
   );
 }

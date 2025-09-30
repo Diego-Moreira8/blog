@@ -1,6 +1,7 @@
 import { useContext, useRef, useEffect } from "react";
+import { NavLink } from "react-router";
+import cn from "classnames";
 import { AuthContext } from "./AuthContext";
-import { Link } from "react-router";
 
 export function Nav({ navVisible, closeNav }) {
   const { userData, handleLogout } = useContext(AuthContext);
@@ -28,15 +29,35 @@ export function Nav({ navVisible, closeNav }) {
           </div>
         </li>
         <li>
-          <Link
-            className="block w-full px-4 py-1 text-right transition-colors hover:bg-gray-200"
-            to="/profile"
+          <NavLink
+            className={({ isActive }) =>
+              cn(
+                "block w-full px-4 py-1 text-right transition-colors hover:bg-gray-200",
+                isActive && "font-bold",
+              )
+            }
+            to="/home"
             onClick={closeNav}
             ref={firstItemRef}
             role="menuitem"
           >
+            Início
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            className={({ isActive }) =>
+              cn(
+                "block w-full px-4 py-1 text-right transition-colors hover:bg-gray-200",
+                isActive && "font-bold",
+              )
+            }
+            to="/perfil"
+            onClick={closeNav}
+            role="menuitem"
+          >
             Meu Perfil
-          </Link>
+          </NavLink>
         </li>
         <li>
           <button
